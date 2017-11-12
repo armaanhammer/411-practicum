@@ -2,15 +2,20 @@
 #include <SPI.h>
 
 File myFile;
-int pinCS = 11; 
+//int pinCS = 9; 
+int csPin = 9; 
 
 void setup() {
-    
-  Serial.begin(115200);
-  pinMode(pinCS, OUTPUT);
   
+  
+  Serial.begin(115200);
+  Serial.println("Debug checkpoint 1\n");
+  //pinMode(pinCS, OUTPUT);
+  pinMode(csPin, OUTPUT);
+
+  Serial.println("Debug checkpoint 2\n");
   // SD Card Initialization
-  if (SD.begin())
+  if (SD.begin(csPin))
   {
     Serial.println("SD card is ready to use.");
   } else

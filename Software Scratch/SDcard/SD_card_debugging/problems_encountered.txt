@@ -1,0 +1,12 @@
+When chipselect is 9 or 11, we sometimes get:
+
+	 ets Jan  8 2013,rst cause:4, boot mode:(1,4)
+
+	wdt reset
+
+or:
+
+	 ets Jan  8 2013,rst cause:4, boot mode:(1,6)
+
+	wdt reset
+

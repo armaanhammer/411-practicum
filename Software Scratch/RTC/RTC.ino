@@ -2,12 +2,9 @@
 #include "RTClib.h"
 RTC_DS1307 RTC;
 
-#define D1 5 // I2C Bus SCL (clock)
-#define D2 4 // I2C Bus SDA (data)
-
 void setup () {
     Serial.begin(115200);
-    Wire.begin(4,5);
+    Wire.begin(0,2);
     RTC.begin();
   if (! RTC.isrunning()) {
     Serial.println("RTC is NOT running!");

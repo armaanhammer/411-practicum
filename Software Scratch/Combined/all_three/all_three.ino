@@ -22,6 +22,8 @@ void setup () {
   }
   Serial.println("card initialized.");
 
+
+
   //RTC setup
   RTC.begin();
   if (! RTC.isrunning()) {
@@ -35,7 +37,9 @@ void setup () {
   // re-open the file for reading:
   myFile = SD.open("datalog.txt");
   if (myFile) {
-    Serial.println("datalog.txt:");
+    Serial.println("\n\n**************************************************\n");
+    Serial.println("\t\tPrinting datalog.txt:");
+    Serial.println("\n**************************************************\n\n");
 
     // read from the file until there's nothing else in it:
     while (myFile.available()) {
@@ -47,6 +51,10 @@ void setup () {
     // if the file didn't open, print an error:
     Serial.println("error opening test.txt");
   }
+
+    Serial.println("\n\n**************************************************\n");
+    Serial.println("\t\tNow outputting in realtime");
+    Serial.println("\n**************************************************\n\n");
 }
 
 
@@ -59,7 +67,7 @@ void loop () {
 
     //convert the voltage level to UV Index units
     //y=(1.4/12)*x+1
-    int uvIndex = ( (1.4 / 12) * voltage ) + 1;
+    float uvIndex = ( (1.4 / 12) * voltage ) + 1;
     
     //SD section
     // open the file. note that only one file can be open at a time,
@@ -87,11 +95,11 @@ void loop () {
       dataFile.print(sensorValue);
       dataFile.print("\tVoltage: \t");
       dataFile.print(voltage);
-      dataFile.print("\tUV Index:");
+      dataFile.print("\tUV Index:\t");
       dataFile.print(uvIndex);
       dataFile.print("\n");
 
-      Serial.print("Wrote a new line\n");
+      //Serial.print("Wrote a new line\n");
 
       dataFile.close();
     }
@@ -100,26 +108,28 @@ void loop () {
         Serial.println("error opening datalog.txt");
     }
     
-//    //RTC section
-//    DateTime now = RTC.now(); 
-//    Serial.print(now.year(), DEC);
-//    Serial.print('/');
-//    Serial.print(now.month(), DEC);
-//    Serial.print('/');
-//    Serial.print(now.day(), DEC);
-//    Serial.print(' ');
-//    Serial.print(now.hour(), DEC);
-//    Serial.print(':');
-//    Serial.print(now.minute(), DEC);
-//    Serial.print(':');
-//    Serial.print(now.second(), DEC);
-//
-//    //print UV section
-//    Serial.print("\tAnalog value: \t");
-//    Serial.print(sensorValue);
-//    Serial.print("\tVoltage: \t");
-//    Serial.print(voltage);
-//    Serial.print("\n");
+    //RTC section
+    DateTime now = RTC.now(); 
+    Serial.print(now.year(), DEC);
+    Serial.print('/');
+    Serial.print(now.month(), DEC);
+    Serial.print('/');
+    Serial.print(now.day(), DEC);
+    Serial.print(' ');
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+
+    //print UV section
+    Serial.print("\tAnalog value: \t");
+    Serial.print(sensorValue);
+    Serial.print("\tVoltage: \t");
+    Serial.print(voltage);
+    Serial.print("\tUV Index:\t");
+    Serial.print(uvIndex);
+    Serial.print("\n");
 
   delay(1000); //wait for 1 second
 }

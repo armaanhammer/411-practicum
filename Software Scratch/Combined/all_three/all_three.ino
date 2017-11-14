@@ -56,6 +56,10 @@ void loop () {
     int sensorValue = analogRead(A0);
     // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
     float voltage = sensorValue * (5.0 / 1023.0);
+
+    //convert the voltage level to UV Index units
+    //y=(1.4/12)*x+1
+    int uvIndex = ( (1.4 / 12) * voltage ) + 1;
     
     //SD section
     // open the file. note that only one file can be open at a time,
@@ -83,6 +87,8 @@ void loop () {
       dataFile.print(sensorValue);
       dataFile.print("\tVoltage: \t");
       dataFile.print(voltage);
+      dataFile.print("\tUV Index:");
+      dataFile.print(uvIndex);
       dataFile.print("\n");
 
       Serial.print("Wrote a new line\n");

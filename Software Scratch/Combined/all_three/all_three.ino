@@ -8,6 +8,8 @@ const int chipSelect = 15; //SD card
 File myFile;
 RTC_DS1307 RTC;
 
+//float voltage = 0.1; //debug
+
 void setup () {
   Serial.begin(115200);
   Wire.begin();
@@ -29,7 +31,9 @@ void setup () {
   if (! RTC.isrunning()) {
     Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
-    RTC.adjust(DateTime(__DATE__, __TIME__));
+  } else{
+    Serial.println("RTC is running.\n");
+//    RTC.adjust(DateTime(__DATE__, __TIME__));
   }
 
 
@@ -64,10 +68,12 @@ void loop () {
     int sensorValue = analogRead(A0);
     // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
     float voltage = sensorValue * (5.0 / 1023.0);
+//    voltage = voltage + 0.1; //debug
 
     //convert the voltage level to UV Index units
     //y=(1.4/12)*x+1
-    float uvIndex = ( (1.4 / 12) * voltage ) + 1;
+//    float uvIndex = ( (12 / 1.4) * voltage ) + 1;
+    float uvIndex = 12 * (voltage - 1.47);
     
     //SD section
     // open the file. note that only one file can be open at a time,
@@ -86,9 +92,9 @@ void loop () {
       dataFile.print(' ');
       dataFile.print(now.hour(), DEC);
       dataFile.print(':');
-      dataFile.print((now.minute()+7) % 60, DEC); //why the hell is this off by 7?
+      dataFile.print(now.minute(), DEC);
       dataFile.print(':');
-      dataFile.print((now.second()+5) % 60, DEC); //why the hell is this off by 5?
+      dataFile.print(now.second(), DEC);
 
       //print UV section
       dataFile.print("\tAnalog value: \t");
@@ -118,9 +124,9 @@ void loop () {
     Serial.print(' ');
     Serial.print(now.hour(), DEC);
     Serial.print(':');
-    Serial.print((now.minute()+7) % 60, DEC); //why the hell is this off by 7?
+    Serial.print(now.minute(), DEC);
     Serial.print(':');
-    Serial.print((now.second()+5) % 60, DEC); //why the hell is this off by 5?
+    Serial.print(now.second(), DEC);
 
     //print UV section
     Serial.print("\tAnalog value: \t");

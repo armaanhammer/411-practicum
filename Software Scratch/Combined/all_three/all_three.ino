@@ -42,9 +42,9 @@ void setup () {
     Serial.println("\n**************************************************\n\n");
 
     // read from the file until there's nothing else in it:
-    while (myFile.available()) {
-      Serial.write(myFile.read());
-    }
+//    while (myFile.available()) {
+//      Serial.write(myFile.read());
+//    }
     // close the file:
     myFile.close();
   } else {
@@ -86,9 +86,9 @@ void loop () {
       dataFile.print(' ');
       dataFile.print(now.hour(), DEC);
       dataFile.print(':');
-      dataFile.print(now.minute(), DEC);
+      dataFile.print((now.minute()+7) % 60, DEC); //why the hell is this off by 7?
       dataFile.print(':');
-      dataFile.print(now.second(), DEC);
+      dataFile.print((now.second()+5) % 60, DEC); //why the hell is this off by 5?
 
       //print UV section
       dataFile.print("\tAnalog value: \t");
@@ -118,9 +118,9 @@ void loop () {
     Serial.print(' ');
     Serial.print(now.hour(), DEC);
     Serial.print(':');
-    Serial.print(now.minute(), DEC);
+    Serial.print((now.minute()+7) % 60, DEC); //why the hell is this off by 7?
     Serial.print(':');
-    Serial.print(now.second(), DEC);
+    Serial.print((now.second()+5) % 60, DEC); //why the hell is this off by 5?
 
     //print UV section
     Serial.print("\tAnalog value: \t");
